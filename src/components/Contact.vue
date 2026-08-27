@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, onUnmounted, reactive, ref } from 'vue'
 import { ArrowRight, CheckCircle2, LoaderCircle } from '@lucide/vue'
 import { submitContact } from '@/services/contact'
 import { useScrollReveal } from '@/composables/useScrollAnimation'
@@ -37,6 +37,31 @@ const needOptions = [
   'Performance Marketing',
   'Not sure yet',
 ]
+
+const applyNeed = (need: string) => {
+  if (needOptions.includes(need)) {
+    form.need = need
+    delete errors.need
+  }
+}
+
+const onPrefillNeed = (event: Event) => {
+  const detail = (event as CustomEvent<string>).detail
+  if (detail) applyNeed(detail)
+}
+
+onMounted(() => {
+  const saved = sessionStorage.getItem('tvv-contact-need')
+  if (saved) {
+    applyNeed(saved)
+    sessionStorage.removeItem('tvv-contact-need')
+  }
+  window.addEventListener('tvv:prefill-need', onPrefillNeed)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('tvv:prefill-need', onPrefillNeed)
+})
 
 const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
 

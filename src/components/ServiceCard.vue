@@ -1,14 +1,24 @@
 <script setup lang="ts">
 import { ArrowUpRight } from '@lucide/vue'
 import type { Component } from 'vue'
+import { prefersReducedMotion } from '@/composables/useScrollAnimation'
 
-defineProps<{
+const props = defineProps<{
   number: string
   title: string
   description: string
   icon: Component
+  need: string
   className?: string
 }>()
+
+const explore = () => {
+  sessionStorage.setItem('tvv-contact-need', props.need)
+  window.dispatchEvent(new CustomEvent('tvv:prefill-need', { detail: props.need }))
+  document.querySelector('#contact')?.scrollIntoView({
+    behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+  })
+}
 </script>
 
 <template>
@@ -37,13 +47,20 @@ defineProps<{
       {{ description }}
     </p>
 
-    <div class="relative mt-6 flex items-center justify-between sm:mt-8">
-      <span class="text-xs font-medium tracking-wider text-muted uppercase">Explore</span>
+    <button
+      type="button"
+      class="relative mt-6 flex w-full cursor-expand items-center justify-between rounded-xl text-left transition sm:mt-8"
+      :aria-label="`Enquire about ${title}`"
+      @click="explore"
+    >
+      <span class="text-xs font-medium tracking-wider text-muted uppercase transition group-hover:text-accent">
+        Explore
+      </span>
       <span
         class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line-strong transition duration-300 group-hover:translate-x-1 group-hover:border-accent/40 group-hover:bg-accent/10"
       >
         <ArrowUpRight class="h-4 w-4 text-text" aria-hidden="true" />
       </span>
-    </div>
+    </button>
   </article>
 </template>

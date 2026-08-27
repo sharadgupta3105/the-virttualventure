@@ -21,6 +21,7 @@ const services = [
     description:
       'Clarify positioning, channels and priorities so every initiative ladders up to growth.',
     icon: Compass,
+    need: 'Digital Strategy',
     className: 'md:col-span-2 lg:col-span-2 lg:row-span-1',
   },
   {
@@ -29,6 +30,7 @@ const services = [
     description:
       'High-craft experiences engineered for clarity, speed and conversion.',
     icon: LayoutTemplate,
+    need: 'Website / Landing Page',
     className: 'md:col-span-2 lg:col-span-2',
   },
   {
@@ -36,6 +38,7 @@ const services = [
     title: 'Social Media',
     description: 'Content systems that build presence, trust and consistent demand.',
     icon: Share2,
+    need: 'Social Media',
     className: 'md:col-span-2 lg:col-span-1',
   },
   {
@@ -43,6 +46,7 @@ const services = [
     title: 'Performance Marketing',
     description: 'Paid acquisition tuned for efficient acquisition and measurable returns.',
     icon: Megaphone,
+    need: 'Performance Marketing',
     className: 'md:col-span-2 lg:col-span-1',
   },
   {
@@ -50,6 +54,7 @@ const services = [
     title: 'SEO',
     description: 'Technical and content foundations that compound organic discovery.',
     icon: Search,
+    need: 'SEO',
     className: 'md:col-span-2 lg:col-span-2',
   },
   {
@@ -57,9 +62,11 @@ const services = [
     title: 'Branding & Creative',
     description: 'Identity and creative systems that feel premium and convert attention.',
     icon: Sparkles,
+    need: 'Branding & Creative',
     className: 'md:col-span-2 lg:col-span-2',
   },
-]</script>
+]
+</script>
 
 <template>
   <section id="services" class="relative section-y section-pad">
@@ -81,6 +88,7 @@ const services = [
           :title="service.title"
           :description="service.description"
           :icon="service.icon"
+          :need="service.need"
           :class-name="service.className"
         />
       </div>
