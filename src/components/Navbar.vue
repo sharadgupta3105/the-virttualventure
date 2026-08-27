@@ -20,12 +20,13 @@ const links = [
 
 const navClasses = computed(() =>
   scrolled.value
-    ? 'bg-white/85 border-line-strong shadow-[0_10px_40px_rgba(16,19,28,0.08)]'
-    : 'bg-white/70 border-line sm:bg-white/40 sm:border-transparent',
+    ? 'bg-white/90 border-line-strong shadow-[0_10px_40px_rgba(16,19,28,0.08)] backdrop-blur-xl'
+    : 'bg-transparent border-transparent backdrop-blur-0',
 )
 
 const onScroll = () => {
-  scrolled.value = window.scrollY > 24
+  const y = window.scrollY || document.documentElement.scrollTop || 0
+  scrolled.value = y > 16
 }
 
 const closeMenu = () => {
@@ -77,7 +78,7 @@ onUnmounted(() => {
   <header class="fixed inset-x-0 top-0 z-50 section-pad pt-[max(0.75rem,env(safe-area-inset-top))]">
     <nav
       ref="navRef"
-      class="container-x flex items-center justify-between gap-3 rounded-full border px-3 py-2 backdrop-blur-xl transition-all duration-300 sm:px-4 sm:py-2.5 md:px-5"
+      class="container-x flex items-center justify-between gap-3 rounded-full border px-3 py-2 transition-all duration-300 sm:px-4 sm:py-2.5 md:px-5"
       :class="navClasses"
       aria-label="Primary"
     >
