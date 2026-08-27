@@ -8,6 +8,7 @@ import Process from '@/components/Process.vue'
 import Results from '@/components/Results.vue'
 import WhyUs from '@/components/WhyUs.vue'
 import About from '@/components/About.vue'
+import Reviews from '@/components/Reviews.vue'
 import CTA from '@/components/CTA.vue'
 import Contact from '@/components/Contact.vue'
 import Footer from '@/components/Footer.vue'
@@ -25,6 +26,7 @@ import Footer from '@/components/Footer.vue'
       <Results />
       <WhyUs />
       <About />
+      <Reviews />
       <CTA />
       <Contact />
     </main>

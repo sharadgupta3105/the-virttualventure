@@ -5,6 +5,8 @@ export interface ContactPayload {
   need: string
   budget: string
   message: string
+  /** Honeypot — must stay empty */
+  website?: string
 }
 
 export interface ContactResult {
@@ -12,35 +14,72 @@ export interface ContactResult {
   message: string
 }
 
+const TO_EMAIL = 'info@thevirtualventure.com'
+
 /**
- * API-ready contact submission.
- * Swap the body of `submitContact` to connect Formspree, Supabase, Firebase, or a custom API.
- *
- * Formspree example:
- *   await fetch('https://formspree.io/f/YOUR_ID', {
- *     method: 'POST',
- *     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
- *     body: JSON.stringify(payload),
- *   })
+ * Simple form email via FormSubmit — no API keys or backend required.
+ * First submission: open info@thevirtualventure.com and click “Activate Form”.
  */
 export async function submitContact(payload: ContactPayload): Promise<ContactResult> {
-  // Simulate network latency for UX states until a backend is connected.
-  await new Promise((resolve) => setTimeout(resolve, 900))
-
-  if (!payload.email.includes('@')) {
-    return { ok: false, message: 'Please enter a valid email address.' }
+  if (payload.website) {
+    return { ok: true, message: "Thanks — we'll be in touch shortly." }
   }
 
-  // Persist locally for demo / handoff — replace with real API call.
-  if (typeof window !== 'undefined') {
-    const key = 'tvv-contact-leads'
-    const existing = JSON.parse(localStorage.getItem(key) || '[]') as ContactPayload[]
-    existing.push({ ...payload })
-    localStorage.setItem(key, JSON.stringify(existing))
+  if (!payload.email.includes('@') || !payload.name.trim() || !payload.message.trim()) {
+    return { ok: false, message: 'Please complete the required fields.' }
   }
 
-  return {
-    ok: true,
-    message: "Thanks — we'll be in touch shortly.",
+  try {
+    const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(TO_EMAIL)}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        name: payload.name.trim(),
+        email: payload.email.trim(),
+        company: payload.company.trim() || '—',
+        need: payload.need,
+        budget: payload.budget,
+        message: payload.message.trim(),
+        _replyto: payload.email.trim(),
+        _subject: `New enquiry from ${payload.name.trim()} — The Virtual Venture`,
+        _template: 'table',
+        _captcha: 'false',
+      }),
+    })
+
+    const data = (await response.json().catch(() => null)) as {
+      success?: string | boolean
+      message?: string
+      error?: string
+    } | null
+
+    const successFlag = data?.success
+    if (!response.ok || successFlag === false || successFlag === 'false') {
+      const raw = data?.message || data?.error || ''
+      if (/activation/i.test(raw)) {
+        return {
+          ok: false,
+          message:
+            'Almost ready — check info@thevirtualventure.com for an “Activate Form” email from FormSubmit, click it once, then try again.',
+        }
+      }
+      return {
+        ok: false,
+        message: raw || 'Could not send. Please email info@thevirtualventure.com.',
+      }
+    }
+
+    return {
+      ok: true,
+      message: "Thanks — your message was sent. We'll get back to you soon.",
+    }
+  } catch {
+    return {
+      ok: false,
+      message: 'Network error. Please try again or email info@thevirtualventure.com.',
+    }
   }
 }

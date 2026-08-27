@@ -14,6 +14,7 @@ const form = reactive({
   need: '',
   budget: '',
   message: '',
+  website: '',
 })
 
 const errors = reactive<Record<string, string>>({})
@@ -77,6 +78,7 @@ const onSubmit = async () => {
       form.need = ''
       form.budget = ''
       form.message = ''
+      form.website = ''
     } else {
       status.value = 'error'
       statusMessage.value = result.message
@@ -106,7 +108,7 @@ const onSubmit = async () => {
       </div>
 
       <form
-        class="reveal-item rounded-2xl border border-line bg-card p-4 sm:rounded-[1.75rem] sm:p-5 md:p-8"
+        class="reveal-item relative rounded-2xl border border-line bg-card p-4 sm:rounded-[1.75rem] sm:p-5 md:p-8"
         novalidate
         @submit.prevent="onSubmit"
       >
@@ -124,10 +126,16 @@ const onSubmit = async () => {
 
         <div
           v-else-if="status === 'error' && statusMessage"
-          class="mb-6 rounded-2xl border border-red-400/30 bg-red-400/5 p-4 text-sm text-red-200"
+          class="mb-6 rounded-2xl border border-red-400/40 bg-red-50 p-4 text-sm text-red-700"
           role="alert"
         >
           {{ statusMessage }}
+        </div>
+
+        <!-- Honeypot -->
+        <div class="absolute -left-[9999px] h-0 w-0 overflow-hidden opacity-0" aria-hidden="true">
+          <label for="website">Website</label>
+          <input id="website" v-model="form.website" type="text" tabindex="-1" autocomplete="off" />
         </div>
 
         <div class="grid gap-4 sm:grid-cols-2">
@@ -144,7 +152,7 @@ const onSubmit = async () => {
               :aria-invalid="Boolean(errors.name)"
               :aria-describedby="errors.name ? 'name-error' : undefined"
             />
-            <p v-if="errors.name" id="name-error" class="mt-1.5 text-xs text-red-300">
+            <p v-if="errors.name" id="name-error" class="mt-1.5 text-xs text-red-600">
               {{ errors.name }}
             </p>
           </div>
@@ -162,7 +170,7 @@ const onSubmit = async () => {
               :aria-invalid="Boolean(errors.email)"
               :aria-describedby="errors.email ? 'email-error' : undefined"
             />
-            <p v-if="errors.email" id="email-error" class="mt-1.5 text-xs text-red-300">
+            <p v-if="errors.email" id="email-error" class="mt-1.5 text-xs text-red-600">
               {{ errors.email }}
             </p>
           </div>
@@ -193,7 +201,7 @@ const onSubmit = async () => {
                 {{ option }}
               </option>
             </select>
-            <p v-if="errors.need" class="mt-1.5 text-xs text-red-300">{{ errors.need }}</p>
+            <p v-if="errors.need" class="mt-1.5 text-xs text-red-600">{{ errors.need }}</p>
           </div>
 
           <div>
@@ -210,7 +218,7 @@ const onSubmit = async () => {
                 {{ option }}
               </option>
             </select>
-            <p v-if="errors.budget" class="mt-1.5 text-xs text-red-300">{{ errors.budget }}</p>
+            <p v-if="errors.budget" class="mt-1.5 text-xs text-red-600">{{ errors.budget }}</p>
           </div>
 
           <div class="sm:col-span-2">
@@ -224,7 +232,7 @@ const onSubmit = async () => {
               placeholder="Share context, goals, timelines…"
               :aria-invalid="Boolean(errors.message)"
             />
-            <p v-if="errors.message" class="mt-1.5 text-xs text-red-300">{{ errors.message }}</p>
+            <p v-if="errors.message" class="mt-1.5 text-xs text-red-600">{{ errors.message }}</p>
           </div>
         </div>
 

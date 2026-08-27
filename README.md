@@ -2,15 +2,6 @@
 
 Premium digital growth agency website built with Vue 3, Vite, Tailwind CSS, Vue Router, Lucide, and GSAP.
 
-## Stack
-
-- Vue 3 (`<script setup lang="ts">`)
-- Vite
-- Tailwind CSS v4
-- Vue Router
-- GSAP + ScrollTrigger
-- Lucide Vue (`@lucide/vue`)
-
 ## Getting started
 
 ```bash
@@ -18,17 +9,19 @@ npm install
 npm run dev
 ```
 
-## Build
+## Build / deploy
 
 ```bash
 npm run build
-npm run preview
 ```
 
-## Deploy
+Works on Netlify or Vercel (`netlify.toml` / `vercel.json` included).
 
-Configured for Netlify (`netlify.toml`) and Vercel (`vercel.json`) with SPA rewrites.
+## Contact form (easy setup)
 
-## Contact form
+Uses [FormSubmit](https://formsubmit.co) — **no API keys, no backend**.
 
-The form uses `src/services/contact.ts` — an API-ready composable that currently simulates submission and stores payloads in `localStorage`. Connect Formspree, Supabase, Firebase, or a custom API by updating `submitContact`.
+1. Open the site and submit the contact form once
+2. In **info@thevirtualventure.com**, open the email from FormSubmit
+3. Click **Activate Form** (one time only)
+4. Done — later submissions go straight to that inbox

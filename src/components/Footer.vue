@@ -5,14 +5,18 @@ import { prefersReducedMotion } from '@/composables/useScrollAnimation'
 const links = [
   { label: 'Services', href: '#services' },
   { label: 'Process', href: '#process' },
+  { label: 'Reviews', href: '#reviews' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ]
 
 const socials = [
-  { label: 'Instagram', href: 'https://instagram.com' },
-  { label: 'LinkedIn', href: 'https://linkedin.com' },
-  { label: 'X', href: 'https://x.com' },
+  { label: 'Instagram', href: 'https://www.instagram.com/thevirtualventure?igsi=dDNlNmc0cmt2NWww&utm_source=qr' },
+  { label: 'Facebook', href: 'https://www.facebook.com/share/1cH5d8CV1c/?mibextid=wwXIfr' },
+  {
+    label: 'Google',
+    href: 'https://www.google.com/search?q=the+virtual+venture+raebareli+review&oq=the+virtual+venture+raebareli+review&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigAdIBCDgzNzNqMGo3qAIAsAIA&sourceid=chrome&source=chrome.ob&ie=UTF-8#lrd=0x399ba7ec9d98d09f:0xe6b66f7968563fb0,1,,,,',
+  },
 ]
 
 const scrollTo = (href: string) => {
